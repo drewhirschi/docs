@@ -1,0 +1,191 @@
+Document processor outputs follow standardized formats based on the processor type. Understanding these formats is essential when working with evaluation sets, webhooks, and API responses.
+
+## Extraction Output Type
+
+### Type Definition
+```typescript
+type ExtractionOutput = {
+  [fieldName: string]: ExtractionFieldResult;
+}
+
+type ExtractionFieldResult = {
+  id: string;
+  type: "string" | "number" | "currency" | "boolean" | "date" | 
+        "enum" | "array" | "object" | "signature";
+  value: string | number | Currency | boolean | Date | 
+         ExtractionValueArray | ExtractionValueObject | Signature | null;
+
+  // Optional fields included in outputs, but not required for evaluation set items:
+  schema?: ExtractionFieldSchemaValue[]; // Field schema for nested fields
+  insights?: Insight[]; // Model reasoning and insights
+  references?: ExtractionFieldResultReference[]; // Page numbers and bounding boxes
+  enum?: EnumOption[]; // Options for enum fields
+}
+
+type Currency = {
+  amount: number;
+  iso_4217_currency_code: string;
+}
+
+type Signature = {
+  printed_name: string;
+  signature_date: string;
+  is_signed: boolean;
+  title_or_role: string;
+}
+
+type EnumOption = {
+  value: string;     // The enum value (e.g. "ANNUAL", "MONTHLY")
+  description: string; // Description of the enum value
+}
+
+type ExtractionValueArray = Array<ExtractionValueObject>;
+type ExtractionValueObject = Record<string, any>;
+```
+
+### References
+```typescript
+type ExtractionFieldResultReference = {
+  id: string;      // Field id or array index for nested fields
+  fieldName: string; // Field name
+  page: number;    // Page number (starting at 1)
+  boundingBoxes: BoundingBox[]; // Location references on page
+}
+
+// See Bounding boxes guide for details
+type BoundingBox = {
+  left: number;   // Left position
+  top: number;    // Top position
+  right: number;  // Right position 
+  bottom: number; // Bottom position
+}
+```
+
+### Examples
+
+#### Basic Field Types
+```json
+{
+  "invoice_number": {
+    "id": "field_123",
+    "type": "string", 
+    "value": "INV-2024-001"
+  },
+  "amount_due": {
+    "id": "field_456",
+    "type": "currency",
+    "value": {
+      "amount": 1250.50,
+      "iso_4217_currency_code": "USD"
+    }
+  }
+}
+```
+
+#### Nested Structures
+```json
+{
+  "line_items": {
+    "id": "field_789",
+    "type": "array",
+    "value": [
+      {
+        "item": "Widget A",
+        "quantity": 5,
+        "price": {
+          "amount": 10.00,
+          "iso_4217_currency_code": "USD"
+        }
+      },
+      {
+        "item": "Widget B",
+        "quantity": 2,
+        "price": {
+          "amount": 15.00,
+          "iso_4217_currency_code": "USD"
+        }
+      }
+    ]
+  },
+  "signature_block": {
+    "id": "field_101",
+    "type": "signature",
+    "value": {
+      "printed_name": "John Smith",
+      "signature_date": "2024-03-15",
+      "is_signed": true,
+      "title_or_role": "Purchasing Manager"
+    }
+  }
+}
+```
+
+## Classification Output Type
+
+### Type Definition
+```typescript
+type ClassificationOutput = {
+  id: string;
+  type: string;
+}
+```
+
+### Example
+```json
+{
+  "id": "classification_123",
+  "type": "INVOICE"
+}
+```
+
+## Splitter Output Type 
+
+### Type Definition
+```typescript
+type SplitterOutput = {
+  classificationId: string; // Classification type ID from config
+  type: string;            // Split document type matching classificationId
+  startPage: number;       // Starting page
+  endPage: number;         // Ending page
+  
+  // Optional fields
+  identifier?: string;     // Document identifier (e.g. invoice number)
+  observation?: string;    // Explanation of results
+}
+```
+
+### Example
+```json
+{
+  "classificationId": "invoice",
+  "type": "invoice",
+  "startPage": 1,
+  "endPage": 3
+}
+```
+
+## Shared Types
+
+Certain types are shared across different processor outputs. These provide additional context and information about the processor's decisions.
+
+### Type Definition
+```typescript
+type Insight = {
+  type: "reasoning";  // Currently only reasoning supported
+  content: string;    // Model explanation/reasoning
+}
+```
+
+### Example
+```json
+{
+  "insights": [
+    {
+      "type": "reasoning",
+      "content": "This was classified as an invoice because it contains standard invoice elements including an invoice number, billing details, and itemized charges."
+    }
+  ]
+}
+```
+
+Insights can appear in both Extraction and Classification outputs to provide transparency into the model's decision-making process. They are particularly useful when debugging or validating processor results.

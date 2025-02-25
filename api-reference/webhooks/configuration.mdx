@@ -1,0 +1,46 @@
+## Setting up a webhook
+
+To set up a webhook, you can create one in the Enzo dashboard settings under the "Developer" tab
+
+![title](/images/webhooks.png)
+
+## Verifying webhook requests from Enzo
+
+Enzo will sign each webhook request using a secret unique to the webhook. You can use this signature along with the timestamp to verify that the request is coming from Enzo as well as protect against replay attacks.
+
+### Steps to verify a webhook request from Enzo
+
+At a high level, the steps to verify a webhook request from Enzo are:
+
+1. Retrieve the timestamp of the request from `x-enzo-request-timestamp`, the body of the request, and the signing secret associated with the webhook.
+2. Concatenate the timestamp and request body using the following format:
+   `v0:${timestamp}:${requestBody}`
+3. Compute a HMAC 256 digest on the resulting string using the signing secret as the key. The secret can be found in the webhooks table under the "Developer" tab
+
+[Image showing webhook secret location]
+
+4. Compare this digest with the signature provided in `x-enzo-request-signature`. If they are equal, then the request is verified to be from Enzo.
+
+Here is pseudocode in Javascript to perform the verification:
+
+```typescript
+  import crypto from "crypto";
+
+  // retrieve from x-enzo-request-timestamp
+  const timestamp = 1707777128;
+
+  const requestBodyString = JSON.stringify(request.body);
+
+  // retrieve from the webhook details on the "Developers" tab
+  const signingSecret = "wss_C...l";
+
+  const message = `v0:${timestamp}:${requestBodyString}`;
+  const expectedSignature = crypto.createHmac("sha256", signingSecret).update(message).digest("hex");
+
+  // retrieve from x-enzo-request-signature
+  const receivedSignature = "d3a8d5de6d463023b052ee1eb8e7f247dce6bf90b4a3e1117b4922afdc90029b";
+
+  if (expectedSignature === receivedSignature) {
+    // proceed
+  }
+```

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Enzo",
+  "logo": {
+    "dark": "/logo/enzo-icon-white.svg",
+    "light": "/logo/enzo-icon-purple.svg"
+  },
+  "favicon": "./logo/enzo-icon-purple.svg",
+  "colors": {
+    "primary": "#8287FF",
+    "light": "#8287FF",
+    "dark": "#8287FF",
+    "anchors": {
+      "from": "#8287FF",
+      "to": "#8287FF"
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@enzo.health"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://app.enzo.health"
+  },
+  "tabs": [
+    {
+      "name": "API Reference",
+      "url": "api-reference"
+    }
+  ],
+  "anchors": [],
+  "navigation": [
+    {
+      "group": "API Documentation",
+      "pages": ["api-reference/authentication"]
+    },
+    {
+      "group": "API Endpoints",
+      "pages": ["api-reference/endpoint/create_workflow_run"]
+    },
+    {
+      "group": "API Objects",
+      "pages": [
+        "api-reference/objects/workflow_run",
+        "api-reference/objects/file"
+      ]
+    },
+    {
+      "group": "API Guides",
+      "pages": [
+        "api-reference/guides/output_types",
+        "api-reference/guides/bounding_boxes"
+      ]
+    },
+    {
+      "group": "Webhooks",
+      "pages": [
+        "api-reference/webhooks/configuration",
+        "api-reference/webhooks/events"
+      ]
+    }
+  ],
+  "footerSocials": {
+    "x": "https://x.com/mintlify",
+    "github": "https://github.com/mintlify",
+    "linkedin": "https://linkedin.com/company/mintlify"
+  }
+}

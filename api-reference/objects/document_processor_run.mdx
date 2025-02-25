@@ -1,0 +1,87 @@
+# DocumentProcessorRun Object
+
+### Properties
+
+- **object** (string)  
+  Type of the object, always 'document_processor_run'.
+
+- **id** (string)  
+  The unique identifier for the document processor run.
+
+- **edited** (boolean)  
+  Whether the document processor run has been edited.
+
+- **edits** (object)  
+  A hash of the edits (original + edited values + operator notes, if any) made to the document processor run. Values conform to the value types of the fields.
+
+- **type** (string)  
+  The type of the document processor run. Either `EXTRACT`, `CLASSIFY`, `SPLITTER`, or `INSTRUCT_QA`.
+
+- **config** (object)  
+  The config of the document processor run. The shape of output depends on the document processor `type`.
+  Details for each can be found in the Output and Config types page.
+
+- **initialOutput** (object)  
+  The initial raw output from the document processor. This is always set.
+  The shape of output depends on the document processor `type`.
+  Details for each can be found in the Output and Config types page.
+
+- **reviewedOutput** (object)  
+  An optional field that shows the output after review, if applicable.
+  The shape of output depends on the document processor `type`.
+  Details for each can be found in the Output and Config types page.
+
+- **output** (object)  
+  The final output, either reviewed or initial. You can rely on this to be always set as the final output (initial or post review when reviewed).
+  The shape of output depends on the document processor `type`.
+  Details for each can be found in the Output and Config types page.
+
+### Example
+```json
+{
+  "object": "document_processor_run",
+  "id": "dpr_1234",
+  "edited": true,
+  "type": "EXTRACT",
+  "initialOutput": {
+    "is_invoice": {
+      "id": "field6",
+      "type": "boolean",
+      "value": true,
+      "confidence": 1,
+      "references": []
+    },
+    "line_items": {
+      "id": "field3",
+      "type": "array",
+      "value": [
+        {
+          "quantity": 1,
+          "unit_price": {
+            "amount": 4.316,
+            "iso_4217_currency_code": "USD"
+          },
+          "description": "CHEESE CHEDDAR SHARP PRIN SYS2822312"
+        }
+      ],
+      "confidence": 0.51,
+      "references": []
+    }
+  },
+  "reviewedOutput": {
+    // Same structure as initialOutput, but with reviewed values
+  },
+  "output": {
+    // Final output, either reviewed or initial
+  }
+}
+```
+
+The exact shape of `initialOutput`, `reviewedOutput`, and `output` will depend on the processor type (EXTRACT, CLASSIFY, etc.) and the specific configuration of that processor. The example above shows a partial extract processor output with invoice fields.
+
+Each field in these outputs typically includes:
+- An ID
+- The field type (string, boolean, array, etc.)
+- The extracted value
+- A confidence score
+- Any references to locations in the source document where the information was found

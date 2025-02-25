@@ -1,0 +1,64 @@
+The Processor object represents a document processor in Enzo. AI document processors are specialized components designed to process unstructured data: extraction, classification, splitting, etc. These are typically created in the [Enzo Studio](/product-reference/studio/overview) and then orchestrated via a Workflow.
+
+### Example Processor
+```json
+{
+  "object": "document_processor",
+  "id": "processor_1234",
+  "name": "Invoice Extractor",
+  "type": "EXTRACT",
+  "draftVersion": {
+    "id": "dpv_4567",
+    "version": "draft",
+    "config": {
+      "fields": [
+        {
+          "id": "invoice_number",
+          "name": "invoice_number",
+          "description": "The invoice number", 
+          "type": "string",
+        }
+      ]
+    }
+  },
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-01T12:30:00Z"
+}
+```
+
+## Properties
+
+### object
+`string`
+
+The type of the object, in this case it will always be "document_processor".
+
+### id
+`string`
+
+The document processor ID.
+
+### name
+`string`
+
+The name of the document processor.
+
+### type 
+`string`
+
+The type of the document processor. This field specifies the category or functionality of the processor. See [Object Types](/api-reference/guides/output_types) more context.
+
+### draftVersion
+`object`
+
+The draft version of the processor. See the [ProcessorVersion object](/api-reference/objects/processor_version) for more details.
+
+### createdAt
+`string`
+
+The date and time when the document processor was created, in ISO 8601 format.
+
+### updatedAt
+`string`
+
+The date and time when the document processor was last updated, in ISO 8601 format.
