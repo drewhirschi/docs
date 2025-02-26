@@ -44,23 +44,16 @@
     {
       "group": "API Objects",
       "pages": [
-        "api-reference/objects/workflow_run",
-        "api-reference/objects/file"
-      ]
-    },
-    {
-      "group": "API Guides",
-      "pages": [
-        "api-reference/guides/output_types",
-        "api-reference/guides/bounding_boxes"
+        "api-reference/objects/clinical_summary_result",
+        "api-reference/objects/file_splitter_result",
+        "api-reference/objects/field_reference",
+        "api-reference/objects/field_insight",
+        "api-reference/objects/document_processor_run"
       ]
     },
     {
       "group": "Webhooks",
-      "pages": [
-        "api-reference/webhooks/configuration",
-        "api-reference/webhooks/events"
-      ]
+      "pages": ["api-reference/webhooks/configuration"]
     }
   ],
   "footerSocials": {

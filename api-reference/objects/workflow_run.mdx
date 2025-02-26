@@ -13,14 +13,11 @@ The WorkflowRun object is the core object of the WorkflowRun API. It represents 
 
 - **status** (string)  
   The status of a WorkflowRun. The options are:
+
   - "PENDING" (if the WorkflowRun is still running)
   - "FAILED" (if the WorkflowRun failed)
-  - "NEEDS_REVIEW" (if the WorkflowRun needs to be reviewed manually in the UI)
   - "REVIEWED" (if the WorkflowRun has been manually reviewed and corrected)
   - "PROCESSED" (if the WorkflowRun is fully processed)
-
-- **metadata** (any)  
-  The metadata that was passed in when running the Workflow.
 
 - **fileId** (string)  
   The ID of the File created as part of this WorkflowRun.

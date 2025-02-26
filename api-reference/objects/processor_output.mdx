@@ -1,0 +1,127 @@
+---
+title: "Processor Output"
+description: "Documentation for processor output objects returned by Enzo document processors"
+---
+
+# Processor Output
+
+The Processor Output object represents the structured data extracted by an Enzo document processor. It contains fields, subfields, insights, confidence scores, and references to the original document.
+
+## Structure
+
+A processor output contains one or more field objects, each representing a specific type of extracted information.
+
+### Properties
+
+- **fields** (array)  
+  An array of field objects extracted from the document.
+
+- **processorId** (string)  
+  A unique identifier for the document processor that generated this output.
+
+### Field Object
+
+Each field in the processor output represents a specific type of information extracted from the document.
+
+- **id** (string)  
+  A unique identifier for the field.
+
+- **name** (string)  
+  The name of the field, describing the type of information it contains.
+
+- **type** (string)  
+  The data type of the field (e.g., "object", "array", "string", "date").
+
+- **description** (string)  
+  A description of what the field represents.
+
+- **value** (object)  
+  The extracted value for this field, which may contain nested subfields.
+
+  - **subfields** (array)  
+    An array of subfield objects that provide more detailed information about the field.
+
+  - **insights** (array)  
+    Additional insights or analysis derived from the field data.
+
+  - **confidence** (number)  
+    A confidence score between 0 and 1 indicating the processor's confidence in the extracted information.
+
+  - **references** (array)  
+    References to the original document where this information was extracted from.
+
+### Subfield Object
+
+Subfields provide more granular information about a field.
+
+- **id** (string)  
+  A unique identifier for the subfield.
+
+- **name** (string)  
+  The name of the subfield.
+
+- **type** (string)  
+  The data type of the subfield (e.g., "string", "date", "number").
+
+- **description** (string)  
+  A description of what the subfield represents.
+
+## Example
+
+```json
+{
+  "fields": [
+    {
+      "id": "field_Tz9",
+      "name": "activity_restrictions",
+      "type": "object",
+      "description": "Any restrictions on the patient's activities",
+      "value": {
+        "subfields": [
+          {
+            "id": "subfield_Ii1",
+            "name": "text",
+            "type": "string",
+            "description": "the verbatim quote from the medical record."
+          },
+          {
+            "id": "subfield_XGH",
+            "name": "date",
+            "type": "date",
+            "description": "when was the restriction given?"
+          }
+        ],
+        "insights": [],
+        "confidence": 0,
+        "references": []
+      }
+    }
+  ],
+  "processorId": "dp_k4taf8H1eZVDKB0YQUda_"
+}
+```
+
+## Common Field Types
+
+Depending on the document processor, various field types may be extracted:
+
+- **Patient Demographics**: Information about the patient such as name, date of birth, gender, etc.
+- **Medical History**: Patient's past medical conditions and treatments.
+- **Diagnoses**: Current medical conditions with associated ICD codes.
+- **Medications**: Current medications with dosage, frequency, and route.
+- **Vital Signs**: Measurements like blood pressure, heart rate, temperature, etc.
+- **Lab Results**: Laboratory test results with reference ranges.
+- **Activity Restrictions**: Limitations on patient activities as shown in the example.
+- **Treatment Plans**: Recommended treatments and follow-up care.
+
+## Field Confidence
+
+The confidence score indicates how certain the processor is about the extracted information:
+
+- **0.9-1.0**: Very high confidence, likely accurate
+- **0.7-0.9**: High confidence
+- **0.5-0.7**: Moderate confidence
+- **0.3-0.5**: Low confidence
+- **0.0-0.3**: Very low confidence, may require manual review
+
+Fields with low confidence scores may need human verification before being used for clinical decision-making.

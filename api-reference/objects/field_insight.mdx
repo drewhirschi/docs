@@ -1,0 +1,44 @@
+---
+title: "Field Insight"
+description: "Documentation for reasoning insights in processor outputs"
+---
+
+# Field Insight
+
+Field insights are reasoning provided about the extracted field data. They explain the thought process behind the extraction and provide additional context beyond the raw extracted information.
+
+### Properties
+
+- **type** (string)  
+  The type of insight, which is "reasoning".
+
+- **content** (string)  
+  A detailed explanation of the reasoning process, observations about the document content, and justification for extraction decisions.
+
+## Reasoning Insights
+
+Reasoning insights explain the thought process behind data extraction, highlighting what information was found, what was missing, and any relevant context about the document content.
+
+```json
+{
+  "type": "reasoning",
+  "content": "The document provides the patient's name, date, and referral source. However, it lacks specific details such as address, phone number, date of birth, height, weight, and gender. The patient's name is clearly indicated at the top of the document."
+}
+```
+
+## Using Reasoning Insights
+
+Reasoning insights serve several important purposes:
+
+1. **Transparency**: They provide visibility into why certain information was extracted or not extracted.
+
+2. **Decision Support**: They help users understand the context and limitations of the extracted data.
+
+3. **Quality Assurance**: They allow users to verify that the extraction process considered all relevant information.
+
+4. **Troubleshooting**: They assist in identifying why certain fields might be missing or incomplete.
+
+## Related Documentation
+
+- [ClinicalSummaryResult](/api-reference/objects/clinical_summary_result)
+- [Field Reference](/api-reference/objects/field_reference)

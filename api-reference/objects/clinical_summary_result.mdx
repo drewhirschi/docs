@@ -1,0 +1,339 @@
+The ClinicalSummaryResult object represents an output of a clinical summary workflow run. It contains structured data extracted from clinical documents, including patient information, diagnoses, medications, allergies, wounds, and other relevant clinical data points that provide a comprehensive overview of a patient's medical history.
+
+### Properties
+
+- **devices**
+  Information about medical devices used by the patient.
+
+  - **value** (array)  
+    Array of device objects with details about each device.
+    - **name** (string) - Name of the device
+    - **date** (date) - When the device was mentioned
+    - **context** (string) - Context about the patient's use of the device
+  - **insights** (array)  
+    Additional insights about the devices. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **confidence** (number)  
+    Confidence score for the extracted information.
+  - **references** (array)  
+    References to where this information was found in the document. See [Field Reference](/api-reference/objects/field_reference) for more details.
+
+- **patient**
+  Patient demographic information.
+
+  - **value** (object)  
+    Patient details including:
+    - **patient_name** (string) - Patient's name
+    - **patient_gender** (string) - Patient's gender
+    - **patient_height_in** (number) - Patient's height in inches
+    - **patient_weight_lb** (number) - Patient's weight in pounds
+    - **patient_phone_number** (string) - Patient's phone number
+    - **patient_date_of_birth** (string) - Patient's date of birth
+    - **patient_street_address** (string) - Patient's address
+  - **insights** (array)  
+    Additional insights about the patient information. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **confidence** (number)  
+    Confidence score for the extracted information.
+  - **references** (array)  
+    References to where this information was found in the document. See [Field Reference](/api-reference/objects/field_reference) for more details.
+
+- **allergies**
+  Information about patient allergies.
+
+  - **value** (array)  
+    Array of allergy objects.
+    - **allergy** (string) - The allergy
+  - **insights** (array)  
+    Additional insights about the allergies. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **confidence** (number)  
+    Confidence score for the extracted information.
+  - **references** (array)  
+    References to where this information was found in the document. See [Field Reference](/api-reference/objects/field_reference) for more details.
+
+- **discharges** (object)  
+  Information about patient discharges from facilities.
+
+  - **value** (array)  
+    Array of discharge objects.
+    - **type** (string) - Type of facility the patient was discharged from (NF, SNF, IPPS, LTCH, IRF, psychiatric_unit)
+      - NF: Long-term nursing facility
+      - SNF: Skilled nursing facility/TCU
+      - IPPS: Short-stay acute hospital
+      - LTCH: Long-term care hospital
+      - IRF: Inpatient rehabilitation hospital or unit
+      - psychiatric_unit: Psychiatric hospital or unit
+    - **date** (date) - Date when the patient was discharged from the facility
+  - **insights** (array)  
+    Additional insights about the discharges. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **confidence** (number)  
+    Confidence score for the extracted information.
+  - **references** (array)  
+    References to where this information was found in the document. See [Field Reference](/api-reference/objects/field_reference) for more details.
+
+- **medications** (object)  
+  Information about patient medications.
+
+  - **value** (array)  
+    Array of medication objects.
+
+    - **medication** (string) - The medication the patient is taking
+
+  - **insights** (array)  
+    Additional insights about the medications. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **confidence** (number)  
+    Confidence score for the extracted information.
+  - **references** (array)  
+    References to where this information was found in the document. See [Field Reference](/api-reference/objects/field_reference) for more details.
+
+- **other_wounds**, **stasis_ulcers**, **pressure_ulcers**, **surgical_wounds**  
+  Information about various types of wounds and ulcers.
+
+  - **value** (array)  
+    Array of wound/ulcer objects.
+    - **location** (string) - Location of the wound/ulcer
+    - **stage** (string) - Stage or severity of the wound/ulcer (if applicable)
+    - **size** (string) - Size dimensions of the wound/ulcer
+    - **status** (string) - Current status of the wound/ulcer (healing, infected, etc.)
+  - **insights** (array)  
+    Additional insights about the wounds/ulcers. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **confidence** (number)  
+    Confidence score for the extracted information.
+  - **references** (array)  
+    References to where this information was found in the document. See [Field Reference](/api-reference/objects/field_reference) for more details.
+  - **insights** arrays contain additional analysis. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **references** arrays contain document locations. See [Field Reference](/api-reference/objects/field_reference) for more details.
+
+- **primary_health_insurance**, **secondary_health_insurance** (objects)  
+  Information about the patient's health insurance.
+
+  - **value** (object)  
+    Insurance details including:
+    - **health_insurance_provider** (string) - Name of the insurance provider
+    - **health_insurance_policy_number** (string) - Policy number
+  - **insights** (array)  
+    Additional insights about the insurance information. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **confidence** (number)  
+    Confidence score for the extracted information.
+  - **references** (array)  
+    References to where this information was found in the document. See [Field Reference](/api-reference/objects/field_reference) for more details.
+
+- **physical_activity_restrictions** (object)  
+  Information about restrictions on the patient's physical activities.
+
+  - **value** (array)  
+    Array of restriction objects.
+
+    - **text** (string) - The verbatim quote from the medical record describing the restriction
+    - **date** (string) - The date associated with the restriction
+
+  - **insights** (array)  
+    Additional insights about the restrictions. See [Field Insight](/api-reference/objects/field_insight) for more details.
+  - **confidence** (number)  
+    Confidence score for the extracted information.
+  - **references** (array)  
+    References to where this information was found in the document. See [Field Reference](/api-reference/objects/field_reference) for more details.
+
+### Example
+
+```json
+{
+  "id": "workflow_run_OL5EziaFCvH5gJgNpxlTM",
+  "url": "https://app.enzo.health/organizationId/transforms/cm7l9met30015pg8auzirwraj/review",
+  "name": "thompson referral-XIe.pdf - 2025-02-26T01:57:22.741Z",
+  "files": [
+    {
+      "id": "file_NjVRLbt9OeZc4c-JUHxHo",
+      "name": "thompson referral-XIe.pdf",
+      "type": "PDF",
+      "object": "file",
+      "metadata": { "pageCount": 1 },
+      "createdAt": "2025-02-26T01:57:22.729Z",
+      "updatedAt": "2025-02-26T01:57:30.166Z"
+    }
+  ],
+  "object": "workflow_run",
+  "status": "PROCESSED",
+  "batchId": "batch_Z5VMyzgR",
+  "endTime": "2025-02-26T01:57:39.096Z",
+  "metadata": {
+    "platform": "HCHB",
+    "codeWithAi": false,
+    "transformId": "cm7l9met30015pg8auzirwraj"
+  },
+  "reviewed": false,
+  "stepRuns": [],
+  "workflow": {
+    "id": "workflow_CjzEj0Zz84hpkb-23Wkw_",
+    "name": "Standard Clinical Summary",
+    "object": "workflow",
+    "version": "draft"
+  },
+  "startTime": "2025-02-26T01:57:22.919Z",
+  "initialRunAt": "2025-02-26T01:57:22.741Z",
+  "output": {
+    "devices": {
+      "id": "devices",
+      "type": "array",
+      "value": [],
+      "schema": [
+        {
+          "id": "subfield_6G8",
+          "name": "name",
+          "type": "string",
+          "description": "Examples:\nWheelchair aka: WC\nMechanical lift aka sit-to-stand lift, hoyer lift\nWalker aka RW, 4WW\nCane aka SC\nOrthotics\nProsthetics"
+        },
+        {
+          "id": "subfield_VOK",
+          "name": "date",
+          "type": "date",
+          "description": "When was this device mentioned?"
+        },
+        {
+          "id": "subfield_W0E",
+          "name": "context",
+          "type": "string",
+          "description": "if there is context about the patient's use of the device include that."
+        }
+      ],
+      "insights": [],
+      "confidence": 0,
+      "references": []
+    },
+    "patient": {
+      "id": "field_YVh",
+      "type": "object",
+      "value": {
+        "patient_name": "Thompson, Gregory",
+        "patient_gender": "unknown",
+        "patient_height_in": null,
+        "patient_weight_lb": null,
+        "patient_phone_number": null,
+        "patient_date_of_birth": null,
+        "patient_street_address": null
+      },
+      "schema": [
+        {
+          "id": "subfield_Kg0",
+          "name": "patient_street_address",
+          "type": "string",
+          "description": "Patient street address information"
+        },
+        {
+          "id": "subfield_TNZ",
+          "name": "patient_phone_number",
+          "type": "string",
+          "description": "Patient phone number"
+        },
+        {
+          "id": "subfield_W_f",
+          "name": "patient_date_of_birth",
+          "type": "string",
+          "description": "Patient date of birth"
+        },
+        {
+          "id": "subfield_s91",
+          "name": "patient_height_in",
+          "type": "string",
+          "description": "Patient height in inches"
+        },
+        {
+          "id": "subfield_CGb",
+          "name": "patient_weight_lb",
+          "type": "string",
+          "description": "Patient weight in pounds"
+        },
+        {
+          "id": "subfield_-eh",
+          "name": "patient_gender",
+          "type": "enum",
+          "description": "Patient gender"
+        },
+        {
+          "id": "subfield_f2w",
+          "name": "patient_name",
+          "type": "string",
+          "description": "Patient name"
+        }
+      ],
+      "insights": [
+        {
+          "type": "reasoning",
+          "content": "The document provides the patient's name and date, but lacks explicit information for other fields such as address, phone number, date of birth, height, weight, and gender. The name is clearly labeled, and the date is provided, but no other demographic details are present."
+        }
+      ],
+      "confidence": 1,
+      "references": [
+        {
+          "id": "subfield_f2w",
+          "page": 1,
+          "fieldName": "patient_name",
+          "boundingBoxes": [
+            {
+              "top": 0.3896,
+              "left": 2.3464,
+              "right": 5.5062,
+              "bottom": 0.7868
+            }
+          ]
+        }
+      ]
+    },
+    "primary_health_insurance": {
+      "id": "field_NVl",
+      "type": "object",
+      "value": {
+        "health_insurance_provider": "Medicaid",
+        "health_insurance_policy_number": "No policy number identified."
+      },
+      "schema": [
+        {
+          "id": "subfield_m08",
+          "name": "health_insurance_policy_number",
+          "type": "string",
+          "description": "Health insurance policy number"
+        },
+        {
+          "id": "subfield_kTG",
+          "name": "health_insurance_provider",
+          "type": "string",
+          "description": "Health insurance provider name"
+        }
+      ],
+      "insights": [
+        {
+          "type": "reasoning",
+          "content": "The document lists Medicaid as the insurance provider, but no policy number is provided. Medicaid is prioritized as the primary insurance."
+        }
+      ],
+      "confidence": 0.924,
+      "references": [
+        {
+          "id": "subfield_m08",
+          "page": 1,
+          "fieldName": "health_insurance_policy_number",
+          "boundingBoxes": []
+        },
+        {
+          "id": "subfield_kTG",
+          "page": 1,
+          "fieldName": "health_insurance_provider",
+          "boundingBoxes": [
+            {
+              "top": 6.2758,
+              "left": 1.3119,
+              "right": 2.5948,
+              "bottom": 6.6314
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+### Related Documentation
+
+- [Field Insight](/api-reference/objects/field_insight)
+- [Field Reference](/api-reference/objects/field_reference)
+- [Processor Output](/api-reference/objects/processor_output)
+- [Workflow Run](/api-reference/objects/workflow_run)

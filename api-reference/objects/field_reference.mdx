@@ -1,0 +1,86 @@
+---
+title: "Field Reference"
+description: "Documentation for field references in processor outputs"
+---
+
+# Field Reference
+
+Field references provide information about where specific data was extracted from in the original document. These references help trace extracted information back to its source, which is essential for verification and audit purposes.
+
+## Structure
+
+A field reference typically contains information about the document location, page number, and coordinates where the information was found.
+
+### Properties
+
+- **id** (string)  
+  A unique identifier for the reference.
+
+- **type** (string)  
+  The type of reference, typically "text" or "image".
+
+- **page** (integer)  
+  The page number in the original document where the information was found.
+
+- **boundingBox** (object)  
+  The coordinates of the bounding box that contains the referenced text or image.
+
+  - **x** (number)  
+    The x-coordinate of the top-left corner of the bounding box, as a percentage of the page width.
+
+  - **y** (number)  
+    The y-coordinate of the top-left corner of the bounding box, as a percentage of the page height.
+
+  - **width** (number)  
+    The width of the bounding box, as a percentage of the page width.
+
+  - **height** (number)  
+    The height of the bounding box, as a percentage of the page height.
+
+- **text** (string)  
+  The actual text content that was extracted from this location.
+
+- **confidence** (number)  
+  A confidence score between 0 and 1 indicating the processor's confidence in this reference.
+
+## Example
+
+```json
+{
+  "references": [
+    {
+      "id": "ref_7Yx",
+      "type": "text",
+      "page": 2,
+      "boundingBox": {
+        "x": 0.15,
+        "y": 0.42,
+        "width": 0.7,
+        "height": 0.05
+      },
+      "text": "Patient is restricted from lifting more than 10 pounds for 2 weeks",
+      "confidence": 0.95
+    }
+  ]
+}
+```
+
+## Using References
+
+Field references serve several important purposes:
+
+1. **Verification**: They allow users to verify that the extracted information matches what's in the original document.
+
+2. **Highlighting**: In the Enzo web application, references are used to highlight the relevant parts of the document when reviewing extracted data.
+
+3. **Audit Trail**: References provide an audit trail that shows exactly where each piece of information came from.
+
+## Reference Types
+
+- **Text References**: Point to textual content in the document.
+- **Image References**: Point to images, charts, or other non-textual elements.
+- **Table References**: Point to tabular data with row and column information.
+
+## Related Guides
+
+For more information on how to work with bounding boxes and document coordinates, see the [Bounding Boxes Guide](/api-reference/guides/bounding_boxes).

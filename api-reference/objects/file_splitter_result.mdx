@@ -1,0 +1,63 @@
+# FileSplitterResult Object
+
+The FileSplitterResult object represents the output of a document splitter processor. It contains information about how a document has been split into subdocuments based on classification rules, including the type of each subdocument, page ranges, and identifiers.
+
+## Properties
+
+**subDocuments** (array)  
+ An array of subdocument objects that represent the split parts of the original document.
+
+Each subdocument contains:
+
+- **id** (string) - Unique identifier for the subdocument
+- **type** (enum) - The type of the subdocument, which can be one of the following values:
+  - `after_visit_summary` - After Visit Summary document
+  - `cover_sheet` - Cover Sheet or fax cover page
+  - `discharge_summary` - Discharge Summary document
+  - `face_sheet` - Face Sheet (Admission Record)
+  - `insurance_document` - Insurance Authorization Form
+  - `intake_checklist` - Intake Checklist Form
+  - `operative_note` - Operative Note (Op Note)
+  - `order_form` - Physician Order, Discharge order, or Therapy Plan of Care Order
+  - `other` - Other documents that don't fit predefined categories
+  - `physician_progress_note` - Physician Progress Notes, including H&P and office visits
+  - `prescription_pad_order` - Prescription Order Form
+  - `referral_form` - Referral Form
+  - `therapy_progress_note` - Therapy Progress Note
+- **startPage** (number) - The first page of the subdocument
+- **endPage** (number) - The last page of the subdocument
+- **identifier** (string) - A key identifier for the subdocument, often a date (e.g., "2024-09-25")
+- **observation** (string) - Explanation of why the document was classified this way
+- **classificationId** (string) - Reference to the classification rule used to identify this subdocument
+
+## Example
+
+```json
+{
+  "subDocuments": [
+    {
+      "id": "LrITcumypzdIubMlAxQBF",
+      "type": "intake_checklist",
+      "endPage": 1,
+      "startPage": 1,
+      "identifier": "2024-09-25",
+      "observation": "The document on page 1 is identified as an 'Intake Checklist' due to the presence of key components such as patient information, referral source, home health orders, medication list, insurance information, and PCP information. The date '9/25/24' is used as the identifier, aligning with the guideline to use 'Service Date' or 'Encounter Date' for document identification. The document is complete on this single page, as there is no indication of continuation onto another page.",
+      "classificationId": "subdocument_intake_checklist"
+    }
+  ]
+}
+```
+
+## Usage
+
+The FileSplitterResult is returned as part of the `output` field of a [DocumentProcessorRun](/api-reference/objects/document_processor_run) object when the processor type is set to `SPLITTER`.
+
+The splitter processor analyzes documents according to configured classification rules to identify logical document boundaries. This is particularly useful for processing medical records where multiple document types may be contained within a single file, each with their own service dates or encounter dates.
+
+### Key Classification Rules
+
+- Documents are split based on "Service Date" or "Encounter Date"
+- If both dates are present, "Service Date" is prioritized
+- Each distinct date is treated as a separate document
+- Header changes can indicate document boundaries even with the same date
+- Page numbers and content context help determine document grouping
