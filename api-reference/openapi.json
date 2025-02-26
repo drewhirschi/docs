@@ -19,117 +19,7 @@
     }
   ],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
-        "requestBody": {
-          "description": "Plant to add to the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/NewPlant"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Plant"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/workflow_runs/{id}": {
+    "/api/v1/workflow_runs/{id}": {
       "get": {
         "summary": "Get Workflow Run Status",
         "description": "Retrieves the status and details of a specific workflow run.",
@@ -232,10 +122,10 @@
         }
       }
     },
-    "/v1/workflow_runs": {
+    "/api/v1/workflow_runs": {
       "post": {
         "summary": "Run Workflow",
-        "description": "Once a workflow has been created on the Enzo Platform, this endpoint can be used to send file(s) to be run.",
+        "description": "",
         "requestBody": {
           "required": true,
           "content": {
@@ -246,7 +136,7 @@
                 "properties": {
                   "files": {
                     "type": "array",
-                    "description": "An array of Files. Either files or rawTexts must be provided.",
+                    "description": "An array of Files.",
                     "items": {
                       "type": "object",
                       "required": ["name", "url"],
